@@ -253,7 +253,52 @@ GO
 EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
 
 --11----------------------------------------------------------------------
+GO
+CREATE PROC sp_XoaDocGia(@madocgia CHAR(4))
+AS
+BEGIN
+BEGIN TRAN
+	DECLARE @temp CHAR(4) -- biến tạm
+	-- Kiểm tra độc giả có tồn tại hay không
+	IF NOT EXISTS (SELECT 1 FROM dbo.DocGia WHERE ma_DocGia = @madocgia)
+	BEGIN
+	    PRINT('Đọc giả không tồn tại!')
+		RETURN
+	END
+	-- Kiểm tra đọc giả có mượn sách hay không
+	IF EXISTS (SELECT 1 FROM dbo.Muon WHERE ma_DocGia = @madocgia)
+	BEGIN
+	    PRINT('Độc giả này đang mượn sách, không thể xóa!')
+		ROLLBACK TRAN
+		RETURN
+	END
+	-- Kiểm tra mã đọc giả có phải là người lớn
+	IF EXISTS (SELECT 1 FROM dbo.NguoiLon WHERE ma_DocGia = @madocgia)
+	BEGIN
+		-- Kiểm tra đọc giả có bảo lãnh trẻ em nào hay không
+	    IF EXISTS (SELECT 1 FROM dbo.TreEm WHERE ma_DocGia_nguoilon = @madocgia)
+		BEGIN
+		    WHILE EXISTS (SELECT 1 FROM dbo.TreEm WHERE ma_DocGia_nguoilon = @madocgia)
+			BEGIN
+				SELECT TOP 1 @temp = ma_DocGia FROM dbo.TreEm WHERE ma_DocGia_nguoilon = @madocgia
+			    EXEC dbo.sp_XoaDocGia @madocgia = @temp -- char(4)
+			END
+		END
+		DELETE FROM dbo.NguoiLon WHERE ma_DocGia = @madocgia
+	END
+	ELSE -- Nếu đọc giả là trẻ em
+	BEGIN
+	    DELETE FROM dbo.TreEm WHERE ma_DocGia = @madocgia
+	END
+	-- Xóa dữ liệu các bảng còn lại liên quan
+	DELETE FROM dbo.QuaTrinhMuon WHERE ma_DocGia = @madocgia
+	DELETE FROM dbo.DangKy WHERE ma_DocGia = @madocgia
+	DELETE FROM dbo.DocGia WHERE ma_DocGia = @madocgia
+COMMIT
+END
 
+GO
+-- EXEC dbo.sp_XoaDocGia @madocgia = 'D010' -- char(4)
 
 --12----------------------------------------------------------------------
 
@@ -262,6 +307,7 @@ EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
 
 
 --14----------------------------------------------------------------------
+GO
 CREATE TRIGGER tg_delMuon ON Muon
 FOR DELETE 
 AS
@@ -273,6 +319,7 @@ BEGIN
 END
 
 --15----------------------------------------------------------------------
+GO
 CREATE TRIGGER tg_insMuon ON Muon
 FOR INSERT
 AS
@@ -284,7 +331,8 @@ BEGIN
 END
 
 --16----------------------------------------------------------------------
-ALTER TRIGGER tg_updCuonSachUPDATE ON CuonSach
+GO
+CREATE TRIGGER tg_updCuonSachUPDATE ON CuonSach
 FOR UPDATE
 AS
 BEGIN
