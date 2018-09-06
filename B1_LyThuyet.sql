@@ -239,9 +239,44 @@ EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
 
 
 --13----------------------------------------------------------------------
+-- Câu này dữ liệu đề bài hơi mơ hồ nên cách làm sẽ mơ hồ theo
+CREATE PROC sp_TraSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+AS
+BEGIN
+	DECLARE @ngay_muon DATETIME, @ngay_hethan DATETIME
 
+	-- Lấy thông tin ngày mượn, ngày trả và "kiểm tra có đúng đọc giả mượn sách"
+	SELECT @ngay_muon = Muon.ngay_muon, @ngay_hethan = Muon.ngay_hethan FROM Muon WHERE Muon.isbn = @isbn AND Muon.ma_cuonsach = @ma_cuonsach AND Muon.ma_DocGia = @ma_DocGia
+	PRINT(@ngay_muon)
+	PRINT(@ngay_hethan)
+	IF (@ngay_muon IS NULL)
+	BEGIN
+		PRINT('Không tồn tại')
+		RETURN
+	END
 
---14----------------------------------------------------------------------
+	-- Giả sử tiền mượn là 5000/cuốn, đặt cọc 1000
+	DECLARE @tien_muon INT = 5000, @tien_datcoc INT = 1000, @tien_quahan INT = 1000, @tien_datra INT, @songay_quahan INT
+	DECLARE @ngay_tra DATETIME = GETDATE()
+
+	SET @songay_quahan = DATEDIFF(day, @ngay_hethan, @ngay_tra)
+
+	-- Nếu mượn quá hạn
+	IF @songay_quahan>0
+	BEGIN
+		SET @tien_muon = @tien_muon + @tien_quahan*@songay_quahan
+	END
+
+	-- Giả sử tiền đã trả :))
+	SET @tien_datra = @tien_muon - @tien_datcoc
+
+	-- Thêm và xóa 
+	INSERT INTO QuaTrinhMuon VALUES (@isbn, @ma_cuonsach, @ngay_muon, @ma_DocGia, @ngay_hethan, @ngay_tra, @tien_muon, @tien_datra, @tien_datcoc, null)
+	DELETE Muon
+	WHERE Muon.isbn =@isbn AND Muon.ma_cuonsach = @ma_cuonsach
+END
+
+--14-------------------------------------------------------------
 CREATE TRIGGER tg_delMuon ON Muon
 FOR DELETE 
 AS
@@ -264,7 +299,7 @@ BEGIN
 END
 
 --16----------------------------------------------------------------------
-ALTER TRIGGER tg_updCuonSachUPDATE ON CuonSach
+CREATE TRIGGER tg_updCuonSachUPDATE ON CuonSach
 FOR UPDATE
 AS
 BEGIN
