@@ -15,7 +15,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThongtinDocGia 'D006'
+--EXEC sp_ThongtinDocGia 'D006'
 
 --2----------------------------------------------------------------------
 GO
@@ -29,7 +29,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThongtinDausach
+--EXEC sp_ThongtinDausach
 
 --3----------------------------------------------------------------------
 GO
@@ -42,7 +42,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThongtinNguoilonDangmuon
+--EXEC sp_ThongtinNguoilonDangmuon
 
 --4----------------------------------------------------------------------
 GO
@@ -56,7 +56,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThongtinNguoilonQuahan
+--EXEC sp_ThongtinNguoilonQuahan
 
 --5----------------------------------------------------------------------
 GO
@@ -78,7 +78,7 @@ BEGIN
 END
 
 GO
-EXEC sp_DocGiaCoTreEmMuon
+--EXEC sp_DocGiaCoTreEmMuon
 
 --6----------------------------------------------------------------------
 GO
@@ -100,7 +100,7 @@ BEGIN
 END
 
 GO
-EXEC sp_CapnhatTrangthaiDausach '5-421-41243-1       '
+--EXEC sp_CapnhatTrangthaiDausach '5-421-41243-1       '
 
 --7----------------------------------------------------------------------
 GO
@@ -131,7 +131,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThemTuaSach '22s', '2', '3'
+--EXEC sp_ThemTuaSach '22s', '2', '3'
 
 --8----------------------------------------------------------------------
 GO
@@ -167,7 +167,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThemCuonSach '0-471-41743-1       '
+--EXEC sp_ThemCuonSach '0-471-41743-1       '
 
 
 --9----------------------------------------------------------------------
@@ -201,7 +201,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThemNguoiLon 'd', 'd', 'd', '2005-10-10', '2', '2', '2', '4', '2018-10-10'
+--EXEC sp_ThemNguoiLon 'd', 'd', 'd', '2005-10-10', '2', '2', '2', '4', '2018-10-10'
 
 --10----------------------------------------------------------------------
 GO
@@ -250,7 +250,7 @@ BEGIN
 END
 
 GO
-EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
+--EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
 
 --11----------------------------------------------------------------------
 GO
@@ -301,7 +301,7 @@ GO
 -- EXEC dbo.sp_XoaDocGia @madocgia = 'D010' -- char(4)
 
 --12----------------------------------------------------------------------
-ALTER PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+CREATE PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
 AS
 BEGIN
 	-- Kiểm tra đọc giả có mượn sách cùng đầu sách
