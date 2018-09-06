@@ -301,7 +301,7 @@ GO
 -- EXEC dbo.sp_XoaDocGia @madocgia = 'D010' -- char(4)
 
 --12----------------------------------------------------------------------
-CREATE PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+ALTER PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
 AS
 BEGIN
 	-- Kiểm tra đọc giả có mượn sách cùng đầu sách
@@ -311,9 +311,9 @@ BEGIN
 		RETURN
 	END
 
-	-- Kiểm tra trẻ em hay người lớn
+	-- Giả sử đọc giả là trẻ em -> tìm mã người bảo lãnh
 	DECLARE @ma_DocGia_nguoilon CHAR(4)
-	SELECT @ma_DocGia_nguoilon = TreEm.ma_DocGia_nguoilon FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia
+	SET @ma_DocGia_nguoilon = (SELECT TreEm.ma_DocGia_nguoilon FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia)
 
 	-- Số sách mượn của trẻ em + người bảo lãnh hoặc người lớn
 	-- Nếu là người lớn ->  @ma_DocGia_nguoilon = NULL -> chỉ đếm số sách của người lớn @ma_DocGia
@@ -326,6 +326,10 @@ BEGIN
 		RETURN
 	END
 
+	IF EXISTS (SELECT 1 FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia)
+		PRINT('tre em')
+	ELSE
+		PRINT('nguoi lon')
 	-- Nếu là trẻ em
 	IF @ma_DocGia_nguoilon IS NULL 
 	BEGIN
@@ -336,8 +340,7 @@ BEGIN
 		END
 	END
 
-
-	-- Nếu còn sách tron thư viện
+	-- Nếu còn sách trong thư viện
 	IF EXISTS (SELECT 1 FROM CuonSach WHERE CuonSach.isbn = @isbn AND CuonSach.ma_cuonsach = @ma_cuonsach AND CuonSach.tinhtrang = 'yes')
 	BEGIN
 		-- Thêm record vào bảng Muon
@@ -355,12 +358,22 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		PRINT('Sách này đã được mượn')
+		PRINT('Sách này đã được mượn. Đã đăng ký chờ mượn sách')
 		
 		-- Đăng ký chờ mượn sách
 		INSERT INTO DangKy VALUES (@isbn, @ma_DocGia, GETDATE(), NULL)
 	END
 END
+
+SELECT * FROM MUON
+SELECT * FROM CuonSach
+SELECT * FROM TreEm
+select *
+SELECT 
+
+EXEC sp_MuonSach '3-410-41043-1       ', 'S009', 'D008'
+
+EXEC sp_MuonSach '5-421-41243-1       ', 'S018', 'D002'
 
 --13----------------------------------------------------------------------
 -- Câu này dữ liệu đề bài hơi mơ hồ nên cách làm sẽ mơ hồ theo
@@ -397,7 +410,7 @@ BEGIN
 	-- Thêm và xóa 
 	INSERT INTO QuaTrinhMuon VALUES (@isbn, @ma_cuonsach, @ngay_muon, @ma_DocGia, @ngay_hethan, @ngay_tra, @tien_muon, @tien_datra, @tien_datcoc, null)
 	DELETE Muon
-	WHERE Muon.isbn =@isbn AND Muon.ma_cuonsach = @ma_cuonsach
+	WHERE Muon.isbn = @isbn AND Muon.ma_cuonsach = @ma_cuonsach
 END
 
 --14-------------------------------------------------------------
