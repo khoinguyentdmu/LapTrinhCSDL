@@ -251,3 +251,51 @@ END
 
 GO
 EXEC sp_ThemTreEm 'd', 'd', 'd', '2006-10-10', 'D011'
+
+--11----------------------------------------------------------------------
+
+
+--12----------------------------------------------------------------------
+
+
+--13----------------------------------------------------------------------
+
+
+--14----------------------------------------------------------------------
+CREATE TRIGGER tg_delMuon ON Muon
+FOR DELETE 
+AS
+BEGIN
+	DECLARE @ma_cuonsach CHAR(4) = (SELECT deleted.ma_cuonsach FROM deleted)
+	UPDATE CuonSach
+	SET CuonSach.tinhtrang = 'yes'
+	WHERE CuonSach.ma_cuonsach = @ma_cuonsach
+END
+
+--15----------------------------------------------------------------------
+CREATE TRIGGER tg_insMuon ON Muon
+FOR INSERT
+AS
+BEGIN
+	DECLARE @ma_cuonsach CHAR(4) = (SELECT inserted.ma_cuonsach FROM inserted)
+	UPDATE CuonSach
+	SET CuonSach.tinhtrang = 'no'
+	WHERE CuonSach.ma_cuonsach = @ma_cuonsach
+END
+
+--16----------------------------------------------------------------------
+ALTER TRIGGER tg_updCuonSachUPDATE ON CuonSach
+FOR UPDATE
+AS
+BEGIN
+	DECLARE @CNT INT, @isbn CHAR(20) = (SELECT inserted.isbn FROM inserted)
+	SET @CNT = (SELECT COUNT(*) FROM CuonSach WHERE CuonSach.isbn = @isbn AND CuonSach.tinhtrang = 'yes')
+	IF (@CNT = 0)
+		UPDATE DauSach
+		SET DauSach.trangthai = 'no'
+		WHERE DauSach.isbn = @isbn
+	ELSE
+		UPDATE DauSach
+		SET DauSach.trangthai = 'yes'
+		WHERE DauSach.isbn = @isbn
+END
