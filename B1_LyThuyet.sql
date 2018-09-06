@@ -301,7 +301,66 @@ GO
 -- EXEC dbo.sp_XoaDocGia @madocgia = 'D010' -- char(4)
 
 --12----------------------------------------------------------------------
+ALTER PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+AS
+BEGIN
+	-- Kiểm tra đọc giả có mượn sách cùng đầu sách
+	IF EXISTS (SELECT 1 FROM Muon WHERE Muon.isbn = @isbn AND Muon.ma_DocGia = @ma_DocGia)
+	BEGIN
+		PRINT('Đọc giả này đã mượn đầu sách này')
+		RETURN
+	END
 
+	-- Kiểm tra trẻ em hay người lớn
+	DECLARE @ma_DocGia_nguoilon CHAR(4)
+	SELECT @ma_DocGia_nguoilon = TreEm.ma_DocGia_nguoilon FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia
+
+	-- Số sách mượn của trẻ em + người bảo lãnh hoặc người lớn
+	-- Nếu là người lớn ->  @ma_DocGia_nguoilon = NULL -> chỉ đếm số sách của người lớn @ma_DocGia
+	DECLARE @sosachmuon_nguoilon_treem INT = (SELECT COUNT(*) FROM Muon WHERE Muon.ma_DocGia = @ma_DocGia OR Muon.ma_DocGia = @ma_DocGia_nguoilon)
+	
+	-- Kiểm tra đọc giả có được mượn sách
+	IF (@sosachmuon_nguoilon_treem >= 5)
+	BEGIN
+		PRINT('Người lớn hoặc người bảo lãnh đã mượn đủ số lượng cho phép (tối đa 5 cuốn)')
+		RETURN
+	END
+
+	-- Nếu là trẻ em
+	IF @ma_DocGia_nguoilon IS NULL 
+	BEGIN
+		IF (SELECT COUNT(*) FROM Muon WHERE Muon.ma_DocGia = @ma_DocGia) > 0
+		BEGIN
+			PRINT('Trẻ em chỉ mượn đc 1 cuốn')
+			RETURN
+		END
+	END
+
+
+	-- Nếu còn sách tron thư viện
+	IF EXISTS (SELECT 1 FROM CuonSach WHERE CuonSach.isbn = @isbn AND CuonSach.ma_cuonsach = @ma_cuonsach AND CuonSach.tinhtrang = 'yes')
+	BEGIN
+		-- Thêm record vào bảng Muon
+		INSERT INTO Muon VALUES (@isbn, @ma_cuonsach, @ma_DocGia, GETDATE(), DATEDIFF(DAY, -14, GETDATE()))
+		
+		-- Cập nhật trạng thái cuốn sách
+		UPDATE CuonSach
+		SET CuonSach.tinhtrang = 'no'
+		WHERE CuonSach.isbn = @isbn AND CuonSach.ma_cuonsach = @ma_cuonsach
+
+		-- Cập nhật trạng thái đầu sách
+		EXEC sp_CapnhatTrangthaiDausach @isbn
+
+		PRINT('Mượn thành công')
+	END
+	ELSE
+	BEGIN
+		PRINT('Sách này đã được mượn')
+		
+		-- Đăng ký chờ mượn sách
+		INSERT INTO DangKy VALUES (@isbn, @ma_DocGia, GETDATE(), NULL)
+	END
+END
 
 --13----------------------------------------------------------------------
 -- Câu này dữ liệu đề bài hơi mơ hồ nên cách làm sẽ mơ hồ theo
@@ -341,12 +400,7 @@ BEGIN
 	WHERE Muon.isbn =@isbn AND Muon.ma_cuonsach = @ma_cuonsach
 END
 
-<<<<<<< HEAD
 --14-------------------------------------------------------------
-=======
---14----------------------------------------------------------------------
-GO
->>>>>>> b6c5a4ca216dac1e9818274ee207898b02fb8332
 CREATE TRIGGER tg_delMuon ON Muon
 FOR DELETE 
 AS
@@ -370,10 +424,6 @@ BEGIN
 END
 
 --16----------------------------------------------------------------------
-<<<<<<< HEAD
-=======
-GO
->>>>>>> b6c5a4ca216dac1e9818274ee207898b02fb8332
 CREATE TRIGGER tg_updCuonSachUPDATE ON CuonSach
 FOR UPDATE
 AS
