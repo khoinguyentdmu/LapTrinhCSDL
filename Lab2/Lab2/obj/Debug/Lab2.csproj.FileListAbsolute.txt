@@ -1,0 +1,10 @@
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\bin\Debug\Lab2.exe.config
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\bin\Debug\Lab2.exe
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\bin\Debug\Lab2.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.csprojAssemblyReference.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.Form1.resources
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.Properties.Resources.resources
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.csproj.GenerateResource.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.csproj.CoreCompileInputs.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.exe
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Lab2\obj\Debug\Lab2.pdb

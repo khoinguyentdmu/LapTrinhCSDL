@@ -1,4 +1,5 @@
-﻿--1----------------------------------------------------------------------
+﻿-- Bài làm của 3 thành viên: Khởi - Thiện - Duy
+--1----------------------------------------------------------------------
 GO
 CREATE PROC sp_ThongtinDocGia (@ma_DocGia CHAR(4)) 
 AS 
@@ -326,12 +327,8 @@ BEGIN
 		RETURN
 	END
 
-	IF EXISTS (SELECT 1 FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia)
-		PRINT('tre em')
-	ELSE
-		PRINT('nguoi lon')
 	-- Nếu là trẻ em
-	IF @ma_DocGia_nguoilon IS NULL 
+	IF EXISTS (SELECT 1 FROM TreEm WHERE TreEm.ma_DocGia = @ma_DocGia)
 	BEGIN
 		IF (SELECT COUNT(*) FROM Muon WHERE Muon.ma_DocGia = @ma_DocGia) > 0
 		BEGIN
