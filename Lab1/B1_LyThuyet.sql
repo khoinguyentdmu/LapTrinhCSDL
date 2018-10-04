@@ -269,7 +269,7 @@ BEGIN TRAN
 	-- Kiểm tra đọc giả có mượn sách hay không
 	IF EXISTS (SELECT 1 FROM dbo.Muon WHERE ma_DocGia = @madocgia)
 	BEGIN
-	    PRINT('Độc giả này đang mượn sách, không thể xóa!')
+	    PRINT('Đọc giả này đang mượn sách, không thể xóa!')
 		ROLLBACK TRAN
 		RETURN
 	END
@@ -302,7 +302,8 @@ GO
 -- EXEC dbo.sp_XoaDocGia @madocgia = 'D010' -- char(4)
 
 --12----------------------------------------------------------------------
-ALTER PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+GO
+CREATE PROC sp_MuonSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
 AS
 BEGIN
 	-- Kiểm tra đọc giả có mượn sách cùng đầu sách
@@ -362,55 +363,58 @@ BEGIN
 	END
 END
 
-SELECT * FROM MUON
-SELECT * FROM CuonSach
-SELECT * FROM TreEm
-select *
-SELECT 
-
-EXEC sp_MuonSach '3-410-41043-1       ', 'S009', 'D008'
-
-EXEC sp_MuonSach '5-421-41243-1       ', 'S018', 'D002'
+GO
+--EXEC sp_MuonSach '3-410-41043-1       ', 'S009', 'D008'
+GO
+--EXEC sp_MuonSach '5-421-41243-1       ', 'S018', 'D002'
 
 --13----------------------------------------------------------------------
--- Câu này dữ liệu đề bài hơi mơ hồ nên cách làm sẽ mơ hồ theo
-CREATE PROC sp_TraSach (@isbn CHAR(20), @ma_cuonsach CHAR(4), @ma_DocGia CHAR(4))
+
+GO
+CREATE PROC sp_TraSach(@idCuonSach CHAR(4))
 AS
 BEGIN
-	DECLARE @ngay_muon DATETIME, @ngay_hethan DATETIME
-
-	-- Lấy thông tin ngày mượn, ngày trả và "kiểm tra có đúng đọc giả mượn sách"
-	SELECT @ngay_muon = Muon.ngay_muon, @ngay_hethan = Muon.ngay_hethan FROM Muon WHERE Muon.isbn = @isbn AND Muon.ma_cuonsach = @ma_cuonsach AND Muon.ma_DocGia = @ma_DocGia
-	PRINT(@ngay_muon)
-	PRINT(@ngay_hethan)
-	IF (@ngay_muon IS NULL)
+    DECLARE @ngayhethan DATETIME
+	DECLARE @sotienphat INT
+	SET @sotienphat = 0
+	SELECT @ngayhethan = ngay_hethan FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach
+	IF (@ngayhethan < GETDATE())
 	BEGIN
-		PRINT('Không tồn tại')
-		RETURN
+		SET @sotienphat = @sotienphat + DATEDIFF(DAY, @ngayhethan, GETDATE()) * 1000
 	END
-
-	-- Giả sử tiền mượn là 5000/cuốn, đặt cọc 1000
-	DECLARE @tien_muon INT = 5000, @tien_datcoc INT = 1000, @tien_quahan INT = 1000, @tien_datra INT, @songay_quahan INT
-	DECLARE @ngay_tra DATETIME = GETDATE()
-
-	SET @songay_quahan = DATEDIFF(day, @ngay_hethan, @ngay_tra)
-
-	-- Nếu mượn quá hạn
-	IF @songay_quahan>0
-	BEGIN
-		SET @tien_muon = @tien_muon + @tien_quahan*@songay_quahan
-	END
-
-	-- Giả sử tiền đã trả :))
-	SET @tien_datra = @tien_muon - @tien_datcoc
-
-	-- Thêm và xóa 
-	INSERT INTO QuaTrinhMuon VALUES (@isbn, @ma_cuonsach, @ngay_muon, @ma_DocGia, @ngay_hethan, @ngay_tra, @tien_muon, @tien_datra, @tien_datcoc, null)
-	DELETE Muon
-	WHERE Muon.isbn = @isbn AND Muon.ma_cuonsach = @ma_cuonsach
+	INSERT INTO dbo.QuaTrinhMuon
+	(
+	    isbn,
+	    ma_cuonsach,
+	    ngay_muon,
+	    ma_DocGia,
+	    ngay_hethan,
+	    ngay_tra,
+	    tien_muon,
+	    tien_datra,
+	    tien_datcoc,
+	    ghichu
+	)
+	VALUES
+	(   (SELECT isbn FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach),        -- isbn - char(20)
+	    @idCuonSach,        -- ma_cuonsach - char(4)
+	    (SELECT ngay_muon FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach), -- ngay_muon - datetime
+	    (SELECT ma_DocGia FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach),        -- ma_DocGia - char(4)
+	    (SELECT ngay_hethan FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach), -- ngay_hethan - datetime
+	    GETDATE(), -- ngay_tra - datetime
+	    @sotienphat,         -- tien_muon - int
+	    @sotienphat - 1000,         -- tien_datra - int
+	    1000,         -- tien_datcoc - int
+	    N''        -- ghichu - nvarchar(50)
+	    )
+	DELETE FROM dbo.Muon WHERE ma_cuonsach = @idCuonSach
 END
 
+GO
+EXEC dbo.sp_TraSach @idCuonSach = 'S002' -- char(4)
+
 --14-------------------------------------------------------------
+GO
 CREATE TRIGGER tg_delMuon ON Muon
 FOR DELETE 
 AS
@@ -434,6 +438,7 @@ BEGIN
 END
 
 --16----------------------------------------------------------------------
+GO
 CREATE TRIGGER tg_updCuonSachUPDATE ON CuonSach
 FOR UPDATE
 AS
