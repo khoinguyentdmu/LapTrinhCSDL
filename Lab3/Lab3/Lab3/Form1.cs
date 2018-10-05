@@ -24,16 +24,20 @@ namespace Lab3
             dt_KHOA = new DataTable();
             da.Fill(dt_KHOA);
 
-            da.SelectCommand.CommandText = "Select SV.*, K.MaKhoa, K.TenKhoa, L.TenLop"
+            da.SelectCommand.CommandText = "Select SV.*, K.MaKhoa, K.TenKhoa, L.TenLop, YEAR(SV.NgaySinh) AS NamSinh"
                                             + " From (SINHVIEN SV inner join LOP L on SV.MaLop = L.MaLop)"
                                             + "inner join KHOA K on L.MaKhoa = K.MaKhoa";
             dt_SINHVIEN = new DataTable();
             da.Fill(dt_SINHVIEN);
 
+            DataRow dr = dt_KHOA.NewRow();
+            dr["TenKhoa"] = "Tất cả";
+            dt_KHOA.Rows.Add(dr);
+
             cboMaKhoa.DataSource = dt_KHOA;
             cboMaKhoa.DisplayMember = "TenKhoa";
             cboMaKhoa.ValueMember = "MaKhoa";
-            cboMaKhoa.SelectedIndex = -1;
+            cboMaKhoa.SelectedIndex = dt_KHOA.Rows.Count - 1;
             //cboMaKhoa.Items.Add("All");
 
             CrystalReport1 rpt = new CrystalReport1();
@@ -44,7 +48,7 @@ namespace Lab3
         private void btnReport_Click(object sender, EventArgs e)
         {
             CrystalReport1 rpt = new CrystalReport1();
-            if (cboMaKhoa.Text.Length > 0)
+            if (!cboMaKhoa.Text.Equals("Tất cả"))
             {
                 dt_SINHVIEN.DefaultView.RowFilter = "MaKhoa = '" + cboMaKhoa.SelectedValue.ToString() + "'";
                 rpt.SetDataSource(dt_SINHVIEN.DefaultView);

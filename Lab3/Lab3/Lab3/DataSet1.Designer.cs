@@ -291,6 +291,8 @@ namespace Lab3 {
             
             private global::System.Data.DataColumn columnMaKhoa;
             
+            private global::System.Data.DataColumn columnNamSinh;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public DataTable1DataTable() {
@@ -374,6 +376,14 @@ namespace Lab3 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn NamSinhColumn {
+                get {
+                    return this.columnNamSinh;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -409,7 +419,7 @@ namespace Lab3 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public DataTable1Row AddDataTable1Row(string MaSV, string HoTen, string MaLop, string TenLop, string TenKhoa, string MaKhoa) {
+            public DataTable1Row AddDataTable1Row(string MaSV, string HoTen, string MaLop, string TenLop, string TenKhoa, string MaKhoa, int NamSinh) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MaSV,
@@ -417,7 +427,8 @@ namespace Lab3 {
                         MaLop,
                         TenLop,
                         TenKhoa,
-                        MaKhoa};
+                        MaKhoa,
+                        NamSinh};
                 rowDataTable1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowDataTable1Row);
                 return rowDataTable1Row;
@@ -455,6 +466,7 @@ namespace Lab3 {
                 this.columnTenLop = base.Columns["TenLop"];
                 this.columnTenKhoa = base.Columns["TenKhoa"];
                 this.columnMaKhoa = base.Columns["MaKhoa"];
+                this.columnNamSinh = base.Columns["NamSinh"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -472,6 +484,8 @@ namespace Lab3 {
                 base.Columns.Add(this.columnTenKhoa);
                 this.columnMaKhoa = new global::System.Data.DataColumn("MaKhoa", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMaKhoa);
+                this.columnNamSinh = new global::System.Data.DataColumn("NamSinh", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNamSinh);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnMaSV,
                                 this.columnMaLop,
@@ -487,6 +501,7 @@ namespace Lab3 {
                 this.columnTenKhoa.MaxLength = 100;
                 this.columnMaKhoa.AllowDBNull = false;
                 this.columnMaKhoa.MaxLength = 10;
+                this.columnNamSinh.ReadOnly = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -700,6 +715,22 @@ namespace Lab3 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public int NamSinh {
+                get {
+                    try {
+                        return ((int)(this[this.tableDataTable1.NamSinhColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NamSinh\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.NamSinhColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsTenLopNull() {
                 return this.IsNull(this.tableDataTable1.TenLopColumn);
             }
@@ -708,6 +739,18 @@ namespace Lab3 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetTenLopNull() {
                 this[this.tableDataTable1.TenLopColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsNamSinhNull() {
+                return this.IsNull(this.tableDataTable1.NamSinhColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetNamSinhNull() {
+                this[this.tableDataTable1.NamSinhColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -876,6 +919,7 @@ namespace Lab3.DataSet1TableAdapters {
             tableMapping.ColumnMappings.Add("TenLop", "TenLop");
             tableMapping.ColumnMappings.Add("TenKhoa", "TenKhoa");
             tableMapping.ColumnMappings.Add("MaKhoa", "MaKhoa");
+            tableMapping.ColumnMappings.Add("NamSinh", "NamSinh");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -892,7 +936,7 @@ namespace Lab3.DataSet1TableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT        SINHVIEN.MaSV, SINHVIEN.HoTen, LOP.MaLop, LOP.TenLop, KHOA.TenKhoa, KHOA.MaKhoa
+            this._commandCollection[0].CommandText = @"SELECT        SINHVIEN.MaSV, SINHVIEN.HoTen, LOP.MaLop, LOP.TenLop, KHOA.TenKhoa, KHOA.MaKhoa, YEAR(SINHVIEN.NgaySinh) AS NamSinh
 FROM            KHOA INNER JOIN
                          LOP ON KHOA.MaKhoa = LOP.MaKhoa INNER JOIN
                          SINHVIEN ON LOP.MaLop = SINHVIEN.MaLop";
