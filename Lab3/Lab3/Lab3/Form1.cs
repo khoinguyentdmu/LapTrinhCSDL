@@ -55,7 +55,7 @@ namespace Lab3
             }
             else
             {
-                rpt.SetDataSource(dt_SINHVIEN.DefaultView);
+                rpt.SetDataSource(dt_SINHVIEN);
             }
 
             crystalReportViewer1.ReportSource = rpt;
