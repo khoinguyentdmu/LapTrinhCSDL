@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="QLSinhVienDB">
+  <DataContextMoniker Name="/QLSinhVienDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="73871eb1-e38f-471d-b3e2-2b18c361b260" absoluteBounds="3.5, 0.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/QLSinhVienDBDataContext/SINHVIEN" />
+      <nestedChildShapes>
+        <elementListCompartment Id="eb7f3f5d-7c49-43a4-84fe-c1d37ab89619" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="de95de23-55f7-402e-84bb-ae117b48d7b6" absoluteBounds="0.75, 1, 2, 1.9631982421875003">
+      <DataClassMoniker Name="/QLSinhVienDBDataContext/LOP" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3a99fbf5-9410-47c9-801d-cb329aa8810c" absoluteBounds="0.765, 1.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.98159912109375); (3.5 : 1.98159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/QLSinhVienDBDataContext/LOP/LOP_SINHVIEN" />
+      <nodes>
+        <classShapeMoniker Id="de95de23-55f7-402e-84bb-ae117b48d7b6" />
+        <classShapeMoniker Id="73871eb1-e38f-471d-b3e2-2b18c361b260" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

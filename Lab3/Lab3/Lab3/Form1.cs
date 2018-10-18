@@ -38,7 +38,6 @@ namespace Lab3
             cboMaKhoa.DisplayMember = "TenKhoa";
             cboMaKhoa.ValueMember = "MaKhoa";
             cboMaKhoa.SelectedIndex = dt_KHOA.Rows.Count - 1;
-            //cboMaKhoa.Items.Add("All");
 
             CrystalReport1 rpt = new CrystalReport1();
             rpt.SetDataSource(dt_SINHVIEN.DefaultView);
