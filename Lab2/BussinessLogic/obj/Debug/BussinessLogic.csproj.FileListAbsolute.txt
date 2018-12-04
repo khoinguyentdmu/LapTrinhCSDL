@@ -7,3 +7,12 @@ D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\Bussines
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\BussinessLogic\obj\Debug\BussinessLogic.csproj.CopyComplete
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\BussinessLogic\obj\Debug\BussinessLogic.dll
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\BussinessLogic\obj\Debug\BussinessLogic.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\bin\Debug\BussinessLogic.dll
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\bin\Debug\BussinessLogic.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\bin\Debug\DataAccessLayer.dll
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\bin\Debug\DataAccessLayer.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\obj\Debug\BussinessLogic.csprojAssemblyReference.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\obj\Debug\BussinessLogic.csproj.CoreCompileInputs.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\obj\Debug\BussinessLogic.csproj.CopyComplete
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\obj\Debug\BussinessLogic.dll
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\BussinessLogic\obj\Debug\BussinessLogic.pdb

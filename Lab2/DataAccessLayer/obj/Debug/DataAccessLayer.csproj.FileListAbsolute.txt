@@ -4,3 +4,9 @@ D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\DataAcce
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.dll
 D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\bin\Debug\DataAccessLayer.dll
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\bin\Debug\DataAccessLayer.pdb
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.csprojAssemblyReference.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.csproj.CoreCompileInputs.cache
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.dll
+D:\StudyDocuments\TDMU_4Years\Nam4_HK1\LapTrinhCoSoDuLieu\Lab\Lab2\DataAccessLayer\obj\Debug\DataAccessLayer.pdb
